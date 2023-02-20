@@ -1,0 +1,8 @@
+* VS COde INstallieren
+* in VS Code Erweiterunt "Python" von "Microsoft" installieren.
+* Ordner in VS Code öffnen
+* WICHTIG: VENV erstellen und mit "requirements.txt" befüllen!
+  VSCODE: <STRG>+<Shift>+P => Python: Create VENV
+  VSCODE: <STRG>+<Shift>+P => Python: Select Interpreter
+  VSCODE: <STRG>+<Shift>+P => Python: Terminal erstellen
+        Venv_Terminal==> python3 -m pip install -r requirements.txt
