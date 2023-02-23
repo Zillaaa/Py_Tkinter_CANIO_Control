@@ -1,0 +1,243 @@
+FormatVersion=6.0 // Do not edit this line!
+UniqueVariables=True
+Title="Unbenannt"
+
+{ENUMS}
+Enum=ONOFF(0="OK", 1="ERR", 2="IGN", 3="NA")
+Enum=ERROR_BIT(0="OK", 1="ERROR", 2="IGNORE", 3="NOT_USED")
+Enum=CMD_BAUDRATE(0="250kbit", // Default
+  1="500kbit", 2="1000kbit", 3="RESERVED", 4="RESERVED", 5="RESERVED", 6="RESERVED", 7="NA")
+Enum=CMD_TX_CYCLE(0="MUX0_CNF_0", 16="MUX0_INPUT=24V_AI_0", 32="MUX0_INPUT=10V_AI_0", 33="MUX0_INPUT=10V_AI_1",
+  48="MUX0_INPUT=CURR_0", 49="MUX0_INPUT=CURR_1", 50="MUX0_INPUT=CURR_2", 128="MUX0_INPUT=SENT_10V_AI",
+  160="MUX0_INPUT=4-20mA", 196="MUX0_ERROR_0", 197="MUX0_ERROR_1")
+Enum=ten_CanErrorList(0="CAN_ERR_OK", 1="CAN_ERR_UNKOWN", 2="CAN_ERR_NOTIMPLEMENTED", 3="CAN_ERR_OUTOFRANGE",
+  4="CAN_ERR_NOTFOUND", 5="CAN_ERR_MAGICNUMBER_FAIL", 6="CAN_ERR_UNSUPPORTED", 7="CAN_ERR_INDEX_NOTFOUND",
+  8="CAN_ERR_OUTPUT_DISABLED", 9="CAN_ERR_EEP_PATTERNWRONG", 10="CAN_ERR_EEP_CHECKSUMWRONG",
+  11="CAN_ERR_INDEX_OUTOFRANGE")
+Enum=IO_List_Selector(0="IO_OUTPUT_SW_OUT_HSD0", 1="IO_OUTPUT_SW_OUT_HSD1", 2="IO_OUTPUT_SW_OUT_HSD2",
+  3="IO_OUTPUT_SW_OUT_HSD3", 4="IO_OUTPUT_SW_OUT_HSD4", 5="IO_OUTPUT_SW_OUT_HSD5", 6="IO_OUTPUT_SW_OUT_HSD6",
+  7="IO_OUTPUT_SW_OUT_HSD7", 8="IO_OUTPUT_PROM_OUT_HSD0", 9="IO_OUTPUT_PROM_OUT_HSD1", 10="IO_OUTPUT_PROM_OUT_HSD2",
+  11="IO_OUTPUT_PROM_OUT_HSD3", 12="IO_OUTPUT_PROM_OUT_HSD4", 13="IO_OUTPUT_PROM_OUT_HSD5",
+  14="IO_OUTPUT_PROM_OUT_HSD6", 15="IO_OUTPUT_PROM_OUT_HSD7", 16="IO_INPUT_MV_ANA0", 17="IO_INPUT_MV_ANA1",
+  18="IO_INPUT_MV_ANA2", 19="IO_INPUT_MV_ANA3", 20="IO_INPUT_MV_ANA4", 21="IO_INPUT_MV_ANA5", 22="IO_INPUT_MV_ANA_IO0",
+  23="IO_INPUT_MV_ANA_IO1", 24="IO_INPUT_MV_ANA_IO2", 25="IO_INPUT_MV_ANA_IO3", 26="IO_INPUT_MV_ANA_IO4",
+  27="IO_INPUT_MV_ANA_IO5", 28="IO_INPUT_MA_STAT_ANA_HSD0", 29="IO_INPUT_MA_STAT_ANA_HSD1",
+  20="IO_INPUT_MA_STAT_ANA_HSD2", 31="IO_INPUT_MA_STAT_ANA_HSD3", 32="IO_INPUT_MA_STAT_ANA_HSD4",
+  33="IO_INPUT_MA_STAT_ANA_HSD5", 34="IO_INPUT_MA_STAT_ANA_HSD6", 35="IO_INPUT_MA_STAT_ANA_HSD7")
+
+{RECEIVE}
+
+[CANIO_RC5640_BC]
+ID=18FFBBCCh
+Type=Extended
+Mux=CAN_0x00_BC_PING 0,8 0
+Var=CAN_0x00_BC_PING_OnlineTime unsigned 8,8 /u:s
+Var=CAN_0x00_BC_PING_CANrxCounter unsigned 16,8
+Var=CAN_0x00_BC_PING_CANtxCounter unsigned 24,8
+Var=CAN_0x00_BC_PING_Buffer unsigned 32,8
+Var=CAN_0x00_BC_PING_OverRun unsigned 40,8
+Var=CAN_0x00_BC_PING_EEP_Result unsigned 48,8
+Var=CAN_0x00_BC_PING_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x11_BC_INPUT_ANA 0,8 11h
+Var=CAN_0x11_BC_INPUT_ANA0 unsigned 8,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_ANA1 unsigned 16,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_ANA2 unsigned 24,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_ANA3 unsigned 32,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_ANA4 unsigned 40,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_ANA5 unsigned 48,8 /u:mV /f:100
+Var=CAN_0x11_BC_INPUT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x12_BC_INPUT_ANA_IO 0,8 12h
+Var=CAN_0x12_BC_INPUT_ANA_IO0 unsigned 8,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_IO1 unsigned 16,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_IO2 unsigned 24,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_IO3 unsigned 32,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_IO4 unsigned 40,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_IO5 unsigned 48,8 /u:mV /f:100
+Var=CAN_0x12_BC_INPUT_ANA_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x13_BC_INPUT_STAT_ANA_HSD 0,8 13h
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD0 unsigned 8,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD1 unsigned 16,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD2 unsigned 24,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD3 unsigned 32,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD4 unsigned 40,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_ANA_HSD5 unsigned 48,8 /u:mA /f:20
+Var=CAN_0x13_BC_INPUT_STAT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x14_BC_INPUT_MISC 0,8 14h
+Var=CAN_0x14_BC_INPUT_STAT_HSD6 unsigned 8,8 /u:mA /f:20
+Var=CAN_0x14_BC_INPUT_STAT_HSD7 unsigned 16,8 /u:mA /f:20
+Var=CAN_0x14_BC_INPUT_DIGIN_IN6 unsigned 24,8
+Var=CAN_0x14_BC_INPUT_DIGIN_IN7 unsigned 32,8
+Var=CAN_0x14_BC_INPUT_Temp unsigned 40,8 /u:°C
+Var=CAN_0x14_BC_INPUT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x20_BC_OUTPUT_SET 0,8 20h
+Var=CAN_0x20_BC_OUTPUT_SET_Selector unsigned 8,8
+Var=CAN_0x20_BC_OUTPUT_SET_NewValue unsigned 16,16
+Var=CAN_0x20_BC_OUTPUT_SET_Magic unsigned 32,16 /min:56344 /max:56344 /d:56344
+Var=CAN_0x20_BC_OUTPUT_SET_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_BC]
+Mux=CAN_0x21_BC_OUTPUT_PWM 0,8 21h
+Var=CAN_0x21_BC_OUTPUT_PWM2 unsigned 8,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_PWM1 unsigned 16,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_PWM4 unsigned 24,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_PWM5 unsigned 32,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_PWM6 unsigned 40,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_PWM7 unsigned 48,8 /u:ppm /f:4
+Var=CAN_0x21_BC_OUTPUT_HSD0 unsigned 56,1
+Var=CAN_0x21_BC_OUTPUT_HSD1 unsigned 57,1
+
+{SENDRECEIVE}
+
+[CANIO_RC5640_CMD]
+ID=18EFCC03h
+Type=Extended
+Mux=CAN_0x00_CMD_PING 0,8 0
+Var=CAN_0x00_CMD_PING_OnlineTime unsigned 8,8 /u:s
+Var=CAN_0x00_CMD_PING_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x01_CMD_BuildDate 0,8 1
+Var=CAN_0x01_CMD_BuildDate_STR string 16,40
+Var=CAN_0x01_CMD_BuildDate_Index unsigned 8,8
+Var=CAN_0x01_CMD_BuildDate_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x02_CMD_BuildTime 0,8 2
+Var=CAN_0x02_CMD_BuildTime_STR string 16,48
+Var=CAN_0x02_CMD_BuildTime_Index unsigned 8,8
+Var=CAN_0x02_CMD_BuildTime_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x03_CMD_SerNum 0,8 3
+Var=CAN_0x03_CMD_SerNum_Val unsigned 8,40 -h
+Var=CAN_0x03_CMD_SerNum_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x04_CMD_SWversion 0,8 4
+Var=CAN_0x04_CMD_SWversion_STR string 16,48
+Var=CAN_0x04_CMD_SWversion_Index unsigned 8,8
+Var=CAN_0x04_CMD_SWversion_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x05_CMD_BSPversion 0,8 5
+Var=CAN_0x05_CMD_BSPversion_STR string 16,48
+Var=CAN_0x05_CMD_BSPversion_Index unsigned 8,8
+Var=CAN_0x05_CMD_BSPversion_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x06_CMD_ProjectName 0,8 6
+Var=CAN_0x06_CMD_ProjectName_Index unsigned 8,8
+Var=CAN_0x06_CMD_ProjectName_STR string 16,40
+Var=CAN_0x06_CMD_ProjectName_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x10_CMD_INPUT_GET 0,8 10h
+Var=CAN_0x10_CMD_INPUT_GET_Selector unsigned 8,8 /e:IO_List_Selector
+Var=CAN_0x10_CMD_INPUT_GET_ReadValue unsigned 16,16
+Var=CAN_0x10_CMD_INPUT_GET_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x11_CMD_INPUT_ANA 0,8 11h
+Var=CAN_0x11_CMD_INPUT_ANA0 unsigned 8,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_ANA1 unsigned 16,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_ANA2 unsigned 24,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_ANA3 unsigned 32,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_ANA4 unsigned 40,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_ANA5 unsigned 48,8 /u:mV /f:100
+Var=CAN_0x11_CMD_INPUT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x12_CMD_INPUT_ANA_IO 0,8 12h
+Var=CAN_0x12_CMD_INPUT_ANA_IO0 unsigned 8,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_IO1 unsigned 16,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_IO2 unsigned 24,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_IO3 unsigned 32,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_IO4 unsigned 40,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_IO5 unsigned 48,8 /u:mV /f:100
+Var=CAN_0x12_CMD_INPUT_ANA_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x13_CMD_INPUT_STAT_ANA_HSD 0,8 13h
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD0 unsigned 8,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD1 unsigned 16,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD2 unsigned 24,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD3 unsigned 32,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD4 unsigned 40,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_ANA_HSD5 unsigned 48,8 /u:mA /f:20
+Var=CAN_0x13_CMD_INPUT_STAT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x14_CMD_INPUT_MISC 0,8 14h
+Var=CAN_0x14_CMD_INPUT_STAT_HSD6 unsigned 8,8 /u:mA /f:20
+Var=CAN_0x14_CMD_INPUT_STAT_HSD7 unsigned 16,8 /u:mA /f:20
+Var=CAN_0x14_CMD_INPUT_DIGIN_IN6 unsigned 24,8
+Var=CAN_0x14_CMD_INPUT_DIGIN_IN7 unsigned 32,8
+Var=CAN_0x14_CMD_INPUT_Temp unsigned 40,8 /u:°C
+Var=CAN_0x14_CMD_INPUT_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0x20_CMD_OUTPUT_SET 0,8 20h
+Var=CAN_0x20_CMD_OUTPUT_SET_Selector unsigned 8,8 /e:IO_List_Selector
+Var=CAN_0x20_CMD_OUTPUT_SET_NewValue unsigned 16,16
+Var=CAN_0x20_CMD_OUTPUT_SET_Magic unsigned 32,16 /min:56344 /max:56344 /d:56344
+Var=CAN_0x20_CMD_OUTPUT_SET_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xFF_CMD_ERR_UNKOWN 0,8 FFh
+Var=CAN_0xFF_CMD_ERR_UNKOWN_MUX0 unsigned 8,8
+Var=CAN_0xFF_CMD_ERR_UNKOWN_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xA0_CMD_BAUDRATE 0,8 A0h
+Var=CAN_0xA0_CMD_BAUDRATE_SEL unsigned 8,8
+Var=CAN_0xA0_CMD_BAUDRATE_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xA1_CMD_SOURCE_ADR 0,8 A1h
+Var=CAN_0xA1_CMD_SOURCE_ADR_Value unsigned 8,8 -h /min:1 /max:254
+Var=CAN_0xA1_CMD_SOURCE_ADR_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xA2_CMD_TX_CYCLE 0,8 A2h
+Var=CAN_0xA2_CMD_TX_CYCLE_MUX_Select unsigned 8,8
+Var=CAN_0xA2_CMD_TX_CYCLE_ms unsigned 16,16 /u:ms
+Var=CAN_0xA2_CMD_TX_CYCLE_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xA3_CMD_ERR_IGN 0,8 A3h
+Var=CAN_0xA3_CMD_ERR_IGN_ID0 unsigned 8,8
+Var=CAN_0xA3_CMD_ERR_IGN_ID1 unsigned 16,8
+Var=CAN_0xA3_CMD_ERR_IGN_ID2 unsigned 24,8
+Var=CAN_0xA3_CMD_ERR_IGN_ID3 unsigned 32,8
+Var=CAN_0xA3_CMD_ERR_IGN_ID4 unsigned 40,8
+Var=CAN_0xA3_CMD_ERR_IGN_ID5 unsigned 48,8
+Var=CAN_0xA3_CMD_ERR_IGN_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xB0_CMD_PWM_CNF 0,8 B0h
+Var=CAN_0xB0_CMD_PWM_CNF_FRQ unsigned 8,8
+Var=CAN_0xB0_CMD_PWM_CNF_DITHER unsigned 16,8
+Var=CAN_0xB0_CMD_PWM_Result unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xB1_CMD_OUT_SWITCHOFF 0,8 B1h
+Var=CAN_0xB1_CMD_OUT_SWITCHOFF_Selec unsigned 8,8
+Var=CAN_0xB1_CMD_OUT_SWITCHOFF_MGX unsigned 16,16 /min:57411 /max:57411 /d:57411
+Var=CAN_0xB1_CMD_OUT_SWITCHOFF_Res unsigned 56,8 /e:ten_CanErrorList
+
+[CANIO_RC5640_CMD]
+Mux=CAN_0xB2_CMD_OUT_SAVESTATE 0,8 B2h
+Var=CAN_0xB2_CMD_OUT_SVST_OUT_SEL unsigned 8,8
+Var=CAN_0xB2_CMD_OUT_SVST_Value unsigned 16,16
+Var=CAN_0xB2_CMD_OUT_SVST_MGX unsigned 32,16 /min:8874 /max:8874 /d:8874
+Var=CAN_0xB2_CMD_OUT_SVST_Result unsigned 56,8 /e:ten_CanErrorList
