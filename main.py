@@ -39,8 +39,8 @@ if __name__ == '__main__':
     
 
     root = tk.Tk()
-    root.geometry("720x500")
-    root.iconbitmap('pictures\AtlasLogo.ico')
+    root.geometry("920x450")
+    root.iconbitmap('AtlasLogo.ico')
     root.title("Controller")
 
 
@@ -48,6 +48,7 @@ if __name__ == '__main__':
     # buttons 
     def sendconfirm1():
         global bus
+        global BuildDateOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0X18EFCC03, data = [0X1,00,00,00,00,00,00], is_extended_id=True)
@@ -56,15 +57,39 @@ if __name__ == '__main__':
             while e == True:
                 
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x1:
                     tk.Label(scrollable_frame, text=f"BuildDAte").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+                    print(datL)
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+
+
+                    #asc = chr(d7) + chr(d6) + chr(d5) + chr(d4) + chr(d3) + chr(d2) + chr(d1) + chr(d0)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    BuildDateOP.destroy()
+                    BuildDateOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    BuildDateOP.place(x=0, y=1)
+
                 else:
-                    bus.send(nachricht)
+                    #bus.send(nachricht)
                     msg = bus.recv(timeout=1)
                     r+= 1
-                    if r > 5:
+                    if r > 10:
                         print( "Error while getting response from BuildDAte")
                         tk.Label(scrollable_frame, text="Error: BuildDAte").pack()
                         e = False
@@ -76,6 +101,7 @@ if __name__ == '__main__':
 
     def sendconfirm2():
         global bus
+        global BuildTimeOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0X18EFCC03, data = [0X2,00,00,00,00,00,00], is_extended_id=True)
@@ -84,14 +110,35 @@ if __name__ == '__main__':
             while e == True:
                 
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x2:
+
                     tk.Label(scrollable_frame, text=f"BuildTime").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    BuildTimeOP.destroy()
+                    BuildTimeOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    BuildTimeOP.place(x=0, y=31)
                 else:
                     #bus.send(nachricht)
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from BuildTime")
                         tk.Label(scrollable_frame, text="Error: BuildTime").pack()
                         e = False
@@ -103,6 +150,7 @@ if __name__ == '__main__':
 
     def sendconfirm3():
         global bus
+        global SerNumOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0X18EFCC03, data = [0X3,00,00,00,00,00,00], is_extended_id=True)
@@ -110,15 +158,35 @@ if __name__ == '__main__':
             r = 0
             while e == True:
                 
-                msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                msg = bus.recv(timeout=1000)
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x3:
                     tk.Label(scrollable_frame, text=f"SerNum").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    SerNumOP.destroy()
+                    SerNumOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    SerNumOP.place(x=0, y=61)
                 else:
                     #bus.send(nachricht)
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from SerNum")
                         tk.Label(scrollable_frame, text="Error: SerNum").pack()
                         e = False
@@ -130,6 +198,7 @@ if __name__ == '__main__':
 
     def sendconfirm4():
         global bus
+        global SWVersionOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0X18EFCC03, data = [0X4,00,00,00,00,00,00], is_extended_id=True)
@@ -138,14 +207,34 @@ if __name__ == '__main__':
             while e == True:
                 
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x4:
                     tk.Label(scrollable_frame, text=f"SWversion").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    SWVersionOP.destroy()
+                    SWVersionOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    SWVersionOP.place(x=0, y=91)
                 else:
                     #bus.send(nachricht)
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from SWversion")
                         tk.Label(scrollable_frame, text="Error: SWversion").pack()
                         e = False
@@ -157,6 +246,7 @@ if __name__ == '__main__':
 
     def sendconfirm5():
         global bus
+        global BSPVersionOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0X18EFCC03, data = [0X5,00,00,00,00,00,00], is_extended_id=True)
@@ -165,14 +255,34 @@ if __name__ == '__main__':
             while e == True:
                 
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x5:
                     tk.Label(scrollable_frame, text=f"BSPversion").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    BSPVersionOP.destroy()
+                    BSPVersionOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    BSPVersionOP.place(x=0, y=121)
                 else:
                     #bus.send(nachricht)
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from BSPversion")
                         tk.Label(scrollable_frame, text="Error: BSPversion").pack()
                         e = False
@@ -184,6 +294,7 @@ if __name__ == '__main__':
 
     def sendconfirm6():
         global bus
+        global InpuANAOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0x18EFCC03, data = [0X10,00,00,00,00,00,00], is_extended_id=True)
@@ -192,13 +303,33 @@ if __name__ == '__main__':
             while e == True:
                 #bus.send(nachricht)
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x10:
                     tk.Label(scrollable_frame, text=f"INPUT-AnA").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    InpuANAOP.destroy()
+                    InpuANAOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    InpuANAOP.place(x=0, y=151)
                 else:
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from INPUT-AnA")
                         tk.Label(scrollable_frame, text="Error: INPUT-AnA").pack()
                         e = False
@@ -210,6 +341,7 @@ if __name__ == '__main__':
 
     def sendconfirm7():
         global bus
+        global InpuANAIOOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0x18EFCC03, data = [0X11,00,00,00,00,00,00], is_extended_id=True)
@@ -218,13 +350,33 @@ if __name__ == '__main__':
             while e == True:
                 #bus.send(nachricht)
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x11:
                     tk.Label(scrollable_frame, text=f"INPUT-AnA-IO").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    InpuANAIOOP.destroy()
+                    InpuANAIOOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    InpuANAIOOP.place(x=0, y=181)
                 else:
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from INPUT-AnA-IO")
                         tk.Label(scrollable_frame, text="Error: INPUT-AnA-IO").pack()
                         e = False
@@ -236,6 +388,7 @@ if __name__ == '__main__':
 
     def sendconfirm8():
         global bus
+        global StaticAnAOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0x18EFCC03, data = [0X12,00,00,00,00,00,00], is_extended_id=True)
@@ -244,13 +397,33 @@ if __name__ == '__main__':
             while e == True:
                 #bus.send(nachricht)
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x12:
                     tk.Label(scrollable_frame, text=f"Static-AnA-HSD").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    StaticAnAOP.destroy()
+                    StaticAnAOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    StaticAnAOP.place(x=0, y=211)
                 else:
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from Static-AnA-HSD")
                         tk.Label(scrollable_frame, text="Error: Static-AnA-HSD").pack()
                         e = False
@@ -262,6 +435,7 @@ if __name__ == '__main__':
 
     def sendconfirm9():
         global bus
+        global MiscOP
         try:
             e = True
             nachricht = can.Message(arbitration_id = 0x18EFCC03, data = [0X13,00,00,00,00,00,00], is_extended_id=True)
@@ -270,13 +444,32 @@ if __name__ == '__main__':
             while e == True:
                 #bus.send(nachricht)
                 msg = bus.recv(timeout=1)
-                if msg.arbitration_id == 0x18EFCC03:
+                if msg.arbitration_id == 0x18EFCC03 and msg.data[0] == 0x13:
                     tk.Label(scrollable_frame, text=f"Misc").pack()
-                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"{msg} || Attempt: {r}" )))
+                    d0=msg.data[0]
+                    d1=msg.data[1]
+                    d2=msg.data[2]
+                    d3=msg.data[3]
+                    d4=msg.data[4]
+                    d5=msg.data[5]
+                    d6=msg.data[6]
+                    d7=msg.data[7]
+
+                    dat = f"{d0} {d1} {d2} {d3} {d4} {d5} {d6} {d7}"
+                    datL=  [d7, d6, d5, d4, d3, d2, d1, d0]
+
+                    asc = ""
+                    for i in datL:
+                        if i != 0:
+                            asc = asc+chr(i)
+                    print(Colorate.Horizontal(Colors.cyan_to_green, Box.SimpleCube(f"Data: {dat} Ascii: {asc} || Attempt: {r}" )))
                     e = False
+                    MiscOP.destroy()
+                    MiscOP = tk.Button(OutputFrame, text="Data: "+dat + " | Ascii: "+asc)
+                    MiscOP.place(x=0, y=241)
                 else:
                     r+= 1
-                    if r > 10:
+                    if r > 100:
                         print( "Error while getting response from Misc")
                         tk.Label(scrollable_frame, text="Error: Misc").pack()
                         e = False
@@ -322,7 +515,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 1")
-                            #tk.Label(scrollable_frame, text="Error: Lampe 1").pack()
+                            #tk.Label(scrollable_frame, text="(Error: )Lampe 1").pack()
                             e = False
                     
 
@@ -366,7 +559,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 2")
-                            tk.Label(scrollable_frame, text="Error: Lampe 2").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 2").pack()
                             e = False
                     
 
@@ -409,7 +602,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 3")
-                            tk.Label(scrollable_frame, text="Error: Lampe 3").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 3").pack()
                             e = False
                     
 
@@ -454,7 +647,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 4")
-                            tk.Label(scrollable_frame, text="Error: Lampe 4").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 4").pack()
                             e = False
                     
 
@@ -498,7 +691,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 5")
-                            tk.Label(scrollable_frame, text="Error: Lampe 5").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 5").pack()
                             e = False
                     
 
@@ -543,7 +736,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 6")
-                            tk.Label(scrollable_frame, text="Error: Lampe 6").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 6").pack()
                             e = False
                     
 
@@ -588,7 +781,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 7")
-                            tk.Label(scrollable_frame, text="Error: Lampe 7").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 7").pack()
                             e = False
                     
 
@@ -634,7 +827,7 @@ if __name__ == '__main__':
                         r+= 1
                         if r > 100:
                             #print( "Error while getting response from Lampe 8")
-                            tk.Label(scrollable_frame, text="Error: Lampe 8").pack()
+                            tk.Label(scrollable_frame, text="(Error: )Lampe 8").pack()
                             e = False
                     
 
@@ -688,9 +881,12 @@ if __name__ == '__main__':
         print(Box.Lines("All Lamps are On!"))
 
     def animation():
+        print(Box.Lines("===Animation==="))
+        tk.Label(scrollable_frame, text=f"==Animation on==").pack()
         for i in range(20):
             restart()
-        print("Done!")
+        tk.Label(scrollable_frame, text=f"==Animation off==").pack()
+        print("==Animation off==")
 
     def restart():
         off()
@@ -699,35 +895,67 @@ if __name__ == '__main__':
     Lightframe = LabelFrame(root, text="Light Controll")
     Lightframe.place(x=0, y=0)
 
+    ##Output##
+    OutputFrame = LabelFrame(root, text="Output", width=600, height=287)
+    OutputFrame.place(x=210, y=0)  
+
+    BuildDateOP = tk.Button(OutputFrame, text="None")
+    BuildDateOP.place(x=0, y=1)
+
+    BuildTimeOP = tk.Button(OutputFrame, text="None")
+    BuildTimeOP.place(x=0, y=31)
+
+    SerNumOP = tk.Button(OutputFrame, text="None")
+    SerNumOP.place(x=0, y=61)
+
+    SWVersionOP = tk.Button(OutputFrame, text="None")
+    SWVersionOP.place(x=0, y=91)
+
+    BSPVersionOP = tk.Button(OutputFrame, text="None")
+    BSPVersionOP.place(x=0, y=121)
+
+    InpuANAOP = tk.Button(OutputFrame, text="None")
+    InpuANAOP.place(x=0, y=151)
+
+    InpuANAIOOP = tk.Button(OutputFrame, text="None")
+    InpuANAIOOP.place(x=0, y=181)
+
+    StaticAnAOP = tk.Button(OutputFrame, text="None")
+    StaticAnAOP.place(x=0, y=211)
+
+    MiscOP = tk.Button(OutputFrame, text="None")
+    MiscOP.place(x=0, y=241) 
+
+
     Buttonframe = LabelFrame(root, text="Main Controller")
     Buttonframe.place(x=100, y=0)
 
-    buttonf1 = tk.Button(Buttonframe, text="     BuildDAte     ", command=sendconfirm1, bg="green")
-    buttonf1.pack()
+    buttonf1 = tk.Button(Buttonframe, text="     BuildDate     ", command=sendconfirm1, bg="green")
+    buttonf1.pack(pady=1.8)
 
     buttonf2 = tk.Button(Buttonframe, text="     BuildTime     ", command=sendconfirm2, bg="green")
-    buttonf2.pack()
+    buttonf2.pack(pady=1.8)
 
     buttonf3 = tk.Button(Buttonframe, text="       SerNum       ", command=sendconfirm3, bg="green")
-    buttonf3.pack()
+    buttonf3.pack(pady=1.8)
 
-    buttonf4 = tk.Button(Buttonframe, text="     SWversion     ", command=sendconfirm4, bg="green")
-    buttonf4.pack()
+    buttonf4 = tk.Button(Buttonframe, text="     SWVersion     ", command=sendconfirm4, bg="green")
+    buttonf4.pack(pady=1.8)
 
-    buttonf5 = tk.Button(Buttonframe, text="     BSPversion    ", command=sendconfirm5, bg="green")
-    buttonf5.pack()
+    buttonf5 = tk.Button(Buttonframe, text="     BSPVersion    ", command=sendconfirm5, bg="green")
+    buttonf5.pack(pady=1.8)
 
     buttonf6 = tk.Button(Buttonframe, text="    INPUT-AnA    ", command=sendconfirm6, bg="green")
-    buttonf6.pack()
+    buttonf6.pack(pady=1.8)
 
     buttonf7 = tk.Button(Buttonframe, text="  INPUT-AnA-IO ", command=sendconfirm7, bg="green")
-    buttonf7.pack()
+    buttonf7.pack(pady=1.8)
 
     buttonf8 = tk.Button(Buttonframe, text="Static-AnA-HSD", command=sendconfirm8, bg="green")
-    buttonf8.pack()
+    buttonf8.pack(pady=1.8)
 
     buttonf9 = tk.Button(Buttonframe, text="          Misc          ", command=sendconfirm9, bg="green")
-    buttonf9.pack()
+    buttonf9.pack(pady=1)
 
     #Lampen####
     buttonf10 = tk.Button(Lightframe, text="Lampe 1", command=lampe1, bg="yellow")
@@ -773,21 +1001,21 @@ if __name__ == '__main__':
     ##UI
     
     logoFrame = Frame(root, width=200, height=200)
-    logoFrame.place(x=620, y=0)
+    logoFrame.place(x=820, y=5)
 
     OPframe = LabelFrame(root, text="Light Controll")
     OPframe.place(x=0, y=0)
 
-    logo = ImageTk.PhotoImage(Image.open("pictures\AtlasLogo_50dpi.png"))
+    logo = ImageTk.PhotoImage(Image.open("AtlasLogo_50dpi.png"))
 
     logoLabel = Label(logoFrame, image= logo)
     logoLabel.pack()
 
     #scroll Output
-    container = tk.LabelFrame(root, text="Output")
-    canvas = tk.Canvas(container)
+    container = tk.LabelFrame(root, text="Log", height=100, width=400)
+    canvas = tk.Canvas(container, height=100, width=400)
     scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
-    scrollable_frame = tk.Frame(canvas)
+    scrollable_frame = tk.Frame(canvas, height=100, width=400)
 
     scrollable_frame.bind(  
         "<Configure>",
@@ -802,7 +1030,7 @@ if __name__ == '__main__':
 
     tk.Label(scrollable_frame).pack()
 
-    container.place(x=210, y=0)
+    container.place(x=100, y=290)
     canvas.pack(side="left", fill="both", expand=True)
     scrollbar.pack(side="right", fill="y")
 
@@ -826,4 +1054,4 @@ if __name__ == '__main__':
     print(lampe7(True))
     print(lampe8(True))
 
-    print(Colorate.Horizontal(Colors.red_to_purple,"|--Closed--|"))  
+    print(Colorate.Horizontal(Colors.red_to_purple,"|--Closed--|"))
